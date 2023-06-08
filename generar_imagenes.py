@@ -3,21 +3,23 @@ import os
 import imutils
 
 import sys
+import os
 
 def main():
-    print(len(sys.argv))
+    print(len(sys.argv), len(sys.argv) == 3)
     if len(sys.argv) == 3:  # Verifica si hay argumentos pasados
         personName = sys.argv[1]
         videoPath = sys.argv[2]
         dataPath = 'C:/Users/eh180/OneDrive/Escritorio/python/facial-app/data' #Cambia a la ruta donde hayas almacenado Data
+        videosPath =  "C:/Users/eh180/OneDrive/Escritorio/nuxt/facial-app/"
         personPath = dataPath + '/' + personName
 
         if not os.path.exists(personPath):
             print('Carpeta creada: ',personPath)
             os.makedirs(personPath)
 
-        cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-        # cap = cv2.VideoCapture(videoPath)
+        # cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+        cap = cv2.VideoCapture(os.path.join(videosPath, videoPath))
 
         faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
         count = 0
@@ -42,13 +44,12 @@ def main():
 
             k =  cv2.waitKey(1)
             if k == 27 or count >= 300:
+                print("Imagenes generadas")
                 break
 
         cap.release()
         cv2.destroyAllWindows()
         
-    else:
-        print("No se proporcionaron argumentos")
 
 if __name__ == "__main__":
     main()
